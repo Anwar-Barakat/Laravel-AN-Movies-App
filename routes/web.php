@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MovieController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,4 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/',            'index')->name('home');
+Route::view('/movie',                   'show')->name('movie.show');
+
+Route::resource('/movies',              MovieController::class);
