@@ -14,27 +14,21 @@ class MovieController extends Controller
      */
     public function index()
     {
-        $popularMovies     = Http::withToken('services.tmdb.token')
+        $data['popularMovies']          = Http::withToken('services.tmdb.token')
             ->get('https://api.themoviedb.org/3/movie/popular?api_key=f1717ef8baf4c215e7bc86e8c5f39960&language=en-US&page=1')
             ->json()['results'];
 
-        $genresArray     = Http::withToken('services.tmdb.token')
+        $data['genresArray']            = Http::withToken('services.tmdb.token')
             ->get('https://api.themoviedb.org/3/genre/movie/list?api_key=f1717ef8baf4c215e7bc86e8c5f39960&language=en-US')
             ->json()['genres'];
 
-        $nowPlayingMovies     = Http::withToken('services.tmdb.token')
+        $data['nowPlayingMovies']       = Http::withToken('services.tmdb.token')
             ->get('https://api.themoviedb.org/3/movie/now_playing?api_key=f1717ef8baf4c215e7bc86e8c5f39960&language=en-US&page=1')
             ->json()['results'];
 
-        $genres = collect($genresArray)->mapWithKeys(fn ($genre) => [$genre['id'] => $genre['name']]);
+        $data['genres']                 = collect($data['genresArray'])->mapWithKeys(fn ($genre) => [$genre['id'] => $genre['name']]);
 
-        dump($nowPlayingMovies);
-
-        return view('index', [
-            'popularMovies'     => $popularMovies,
-            'genres'            => $genres,
-            'nowPlayingMovies'  => $nowPlayingMovies
-        ]);
+        return view('index', $data);
     }
 
     /**
@@ -61,12 +55,18 @@ class MovieController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $movie
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        $data['movie']     = Http::withToken('services.tmdb.token')
+            ->get('https://api.themoviedb.org/3/movie/' . $id . '?api_key=f1717ef8baf4c215e7bc86e8c5f39960&language=en-US&page=1&append_to_response=credits,videos,images')
+            ->json();
+
+        dump($data['movie']);
+
+        return view('show', $data);
     }
 
     /**
