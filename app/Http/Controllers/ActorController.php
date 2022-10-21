@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\ViewModels\MoviesViewModel;
-use App\ViewModels\MovieViewModel;
+use App\ViewModels\ActorViewModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
-class MovieController extends Controller
+class ActorController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,25 +15,13 @@ class MovieController extends Controller
      */
     public function index()
     {
-        $popularMovies          = Http::withToken('services.tmdb.token')
-            ->get('https://api.themoviedb.org/3/movie/popular?api_key=f1717ef8baf4c215e7bc86e8c5f39960&language=en-US&page=1')
+        $popularActors          = Http::withToken('services.tmdb.token')
+            ->get('https://api.themoviedb.org/3/person/popular?api_key=f1717ef8baf4c215e7bc86e8c5f39960&language=en-US&page=1')
             ->json()['results'];
 
-        $nowPlayingMovies       = Http::withToken('services.tmdb.token')
-            ->get('https://api.themoviedb.org/3/movie/now_playing?api_key=f1717ef8baf4c215e7bc86e8c5f39960&language=en-US&page=1')
-            ->json()['results'];
+        $viewModel = new ActorViewModel($popularActors);
 
-        $genres            = Http::withToken('services.tmdb.token')
-            ->get('https://api.themoviedb.org/3/genre/movie/list?api_key=f1717ef8baf4c215e7bc86e8c5f39960&language=en-US')
-            ->json()['genres'];
-
-        $viewModel = new MoviesViewModel(
-            $popularMovies,
-            $nowPlayingMovies,
-            $genres
-        );
-
-        return view('movies.index', $viewModel);
+        return view('actors.index', $viewModel);
     }
 
     /**
@@ -61,18 +48,12 @@ class MovieController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $movie
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $movie     = Http::withToken('services.tmdb.token')
-            ->get('https://api.themoviedb.org/3/movie/' . $id . '?api_key=f1717ef8baf4c215e7bc86e8c5f39960&language=en-US&page=1&append_to_response=credits,videos,images')
-            ->json();
-
-        $viewModel = new MovieViewModel($movie);
-
-        return view('movies.show', $viewModel);
+        //
     }
 
     /**
