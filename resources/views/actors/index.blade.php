@@ -13,10 +13,24 @@
                         </a>
                         <div class="mt-2">
                             <a href="" class="text-lg hover:text-gray-300">{{ $actor['name'] }}</a>
-                            <div class="text-sm truncate text-gray-400">Lorem ipsum dolor sit amet.</div>
+                            <div class="text-sm truncate text-gray-400">{{ $actor['known_for'] }}</div>
                         </div>
                     </div>
                 @endforeach
+            </div>
+            <div class="flex justify-between mt-16">
+                @if ($previous)
+                    <a href="/actors/page/{{ $previous }}"
+                        class="inline-flex items-center gap-2 w-fit  bg-orange-500 text-gray-900 rounded font-semibold py-2 px-4 hover:bg-orange-700 transition ease-in-out duration-150 ">Previous</a>
+                @else
+                    <div></div>
+                @endif
+                @if ($next)
+                    <a href="/actors/page/{{ $next }}"
+                        class="inline-flex items-center gap-2 w-fit  bg-orange-500 text-gray-900 rounded font-semibold py-2 px-4 hover:bg-orange-700 transition ease-in-out duration-150 ">Next</a>
+                @else
+                    <div></div>
+                @endif
             </div>
         </div>
     </div>

@@ -13,13 +13,15 @@ class ActorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($page = 1)
     {
+        abort_if($page > 500, 204);
+
         $popularActors          = Http::withToken('services.tmdb.token')
-            ->get('https://api.themoviedb.org/3/person/popular?api_key=f1717ef8baf4c215e7bc86e8c5f39960&language=en-US&page=1')
+            ->get('https://api.themoviedb.org/3/person/popular?api_key=f1717ef8baf4c215e7bc86e8c5f39960&language=en-US&page=' . $page)
             ->json()['results'];
 
-        $viewModel = new ActorViewModel($popularActors);
+        $viewModel = new ActorViewModel($popularActors, $page);
 
         return view('actors.index', $viewModel);
     }

@@ -38,7 +38,9 @@
         </div>
     </nav>
     @yield('content')
+
     @livewireScripts
+    @yield('scripts')
 </body>
 
 </html>
