@@ -52,4 +52,34 @@ class ActorDetailViewModel extends ViewModel
                 ]);
             });
     }
+
+    public function credits()
+    {
+        $castMovies = collect($this->credits)->get('cast');
+        return collect($castMovies)
+            ->map(function ($movie) {
+                if (isset($movie['release_date']))
+                    $releaseDate    = $movie['release_date'];
+                elseif (isset($movie['first_air_date']))
+                    $releaseDate    = $movie['first_air_date'];
+                else
+                    $releaseDate    = '';
+
+                if (isset($movie['title']))
+                    $title          = $movie['title'];
+                elseif (isset($movie['name']))
+                    $title          = $movie['name'];
+                else
+                    $title          = 'Untitled';
+
+                return collect($movie)->merge([
+                    'release_date'  => $releaseDate,
+                    'release_year'  => isset($releaseDate) ? Carbon::parse($releaseDate)->format('Y') : 'Soon',
+                    'title'         => $title,
+                    'character'     => isset($movie['character']) ? $movie['character'] : ''
+
+                ]);
+            })
+            ->sortByDesc('release_date');
+    }
 }

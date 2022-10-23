@@ -5,7 +5,7 @@
         <div class="container mx-auto px-4 py-16 flex flex-col md:flex-row">
             <div class="flex-none">
                 <img src="{{ $actor['profile_path'] }}" alt="" class="w-76">
-                <ul class="flex items-center mt-4 flex-wrap w-full">
+                <ul class="flex items-center mt-4 flex-wrap w-full gap-2">
                     @if ($social['facebook'])
                         <li class="w-10 h-10">
                             <a href="{{ $social['facebook'] }}" title="facebook">
@@ -68,7 +68,10 @@
         <div class="container mx-auto px-4 py-16">
             <h2 class="text-2xl font-semibold">Credits</h2>
             <ul class="list-disc leading-loose pl-5 mt-8">
-                <li>2022 &middot; <strong>black window</strong> as tony strak</li>
+                @foreach ($credits as $credit)
+                    <li>{{ $credit['release_year'] }} &middot; <strong>{{ $credit['title'] }}</strong>
+                        {{ $credit['character'] }}</li>
+                @endforeach
             </ul>
         </div>
     </div>
