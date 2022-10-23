@@ -43,7 +43,7 @@ class MoviesViewModel extends ViewModel
                 'release_date'  => Carbon::parse($movie['release_date'])->format('d M, Y'),
                 'genres'        => $genersFormatted,
             ])
-                ->only(['id', 'poster_path', 'gerne_ids', 'title', 'vote_average', 'title', 'overview', 'release_date', 'genres']);
+                ->only(['id', 'poster_path', 'gerne_ids', 'vote_average', 'title', 'overview', 'release_date', 'genres']);
         });
     }
 }
