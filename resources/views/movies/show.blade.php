@@ -100,17 +100,15 @@
                     @endphp
                     @forelse ($casts as $cast)
                         <div class="mt-8">
-                            <a href="#" class="">
+                            <a href="{{ route('actors.show', $cast['id']) }}" class="">
                                 <img src="{{ 'https://image.tmdb.org/t/p/w300/' . $cast['profile_path'] }}" alt=""
                                     class="hover:opacity-75 transition ease-in-out">
                             </a>
                             <div>
-                                <a href="" class="text-xl mt-2 hover:text-gray-300">{{ $cast['name'] }}</a>
+                                <a href={{ route('actors.show', $cast['id']) }}"
+                                    class="text-xl mt-2 hover:text-gray-300">{{ $cast['name'] }}</a>
                             </div>
-                            <div>
-                                <a href=""
-                                    class="text-lg mt-2 hover:text-gray-300 text-gray-500">{{ $cast['character'] }}</a>
-                            </div>
+                            <div class="text-lg mt-2 hover:text-gray-300 text-gray-500">{{ $cast['character'] }}</div>
                         </div>
                     @empty
                     @endforelse
