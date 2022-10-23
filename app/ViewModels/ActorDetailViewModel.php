@@ -39,16 +39,25 @@ class ActorDetailViewModel extends ViewModel
     public function knownForMovies()
     {
         $castMovies = collect($this->credits)->get('cast');
+
         return collect($castMovies)
-            ->where('media_type', 'movie')
             ->sortByDesc('popularity')
             ->take(5)
             ->map(function ($movie) {
+
+                if (isset($movie['title']))
+                    $title          = $movie['title'];
+                elseif (isset($movie['name']))
+                    $title          = $movie['name'];
+                else
+                    $title          = 'Untitled';
+
                 return collect($movie)->merge([
                     'poster_path'   => $movie['poster_path']
                         ? 'https://image.tmdb.org/t/p/w185/' . $movie["poster_path"]
                         : 'https://via.placeholder.com/185x278',
-                    'title'         => isset($movie['title']) ? $movie['title'] : 'untitled'
+                    'title'         => $title,
+                    'link'          => $movie['media_type'] === 'movie' ? url('/movie/' . $movie['id']) : route('tv.show', $movie['id'])
                 ]);
             });
     }

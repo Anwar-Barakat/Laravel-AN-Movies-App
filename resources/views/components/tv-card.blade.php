@@ -15,9 +15,7 @@
             </span>
             <span class="ml-1">{{ $tvshow['vote_average'] }}</span>
             <span class="mx-2">|</span>
-            @if ($tvshow['first_air_date'])
-                <span>{{ $tvshow['first_air_date'] }}</span>
-            @endif
+            <span>{{ $tvshow['first_air_date'] }}</span>
         </div>
         <div class="flex items-center text-gray-400 text-sm">
             {{ $tvshow['genres'] }}

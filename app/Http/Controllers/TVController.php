@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ViewModels\TvShowViewModel;
 use App\ViewModels\TvViewModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -20,7 +21,7 @@ class TVController extends Controller
             ->json()['results'];
 
         $topRatedTv       = Http::withToken('services.tmdb.token')
-            ->get('https://api.themoviedb.org/3/movie/now_playing?api_key=f1717ef8baf4c215e7bc86e8c5f39960&language=en-US&page=1')
+            ->get('https://api.themoviedb.org/3/tv/top_rated?api_key=f1717ef8baf4c215e7bc86e8c5f39960&language=en-US&page=1')
             ->json()['results'];
 
         $genres            = Http::withToken('services.tmdb.token')
@@ -64,7 +65,13 @@ class TVController extends Controller
      */
     public function show($id)
     {
-        //
+        $tvshow     = Http::withToken('services.tmdb.token')
+            ->get('https://api.themoviedb.org/3/tv/' . $id . '?api_key=f1717ef8baf4c215e7bc86e8c5f39960&language=en-US&page=1&append_to_response=credits,videos,images')
+            ->json();
+
+        $viewModel = new TvShowViewModel($tvshow);
+
+        return view('tv.show', $viewModel);
     }
 
     /**
