@@ -1,9 +1,11 @@
 <div>
     <div class="mt-8">
         <a href="{{ route('tv.show', $tvshow['id']) }}" class="">
-            <img src="{{ $tvshow['poster_path'] }}" alt="" class="hover:opacity-75 transition ease-in-out">
+            <img src="{{ $tvshow['poster_path'] }}" alt=""
+                class="hover:opacity-75 transition ease-in-out main-shadow">
         </a>
-        <a href="{{ route('tv.show', $tvshow['id']) }}" class="text-lg mt-2 hover:text-gray-300">{{ $tvshow['name'] }}</a>
+        <a href="{{ route('tv.show', $tvshow['id']) }}"
+            class="text-lg mt-2 hover:text-gray-300 block">{{ $tvshow['name'] }}</a>
         <div class="flex items-center text-gray-400 text-sm">
             <span class="text-sm">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.25"

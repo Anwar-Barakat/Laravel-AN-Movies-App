@@ -16,7 +16,7 @@
             <ul>
                 @forelse ($searchResults as $movie)
                     <li class="border-b border-gray-600">
-                        <a href="{{ url('/movies/' . $movie['id']) }}"
+                        <a href="{{ url('/movie/' . $movie['id']) }}"
                             class=" hover:bg-gray-600 p-3 flex items-center gap-3"
                             @if ($loop->last) @keydown.tab.exact="isOpen=false" @endif>
                             @if ($movie['poster_path'])

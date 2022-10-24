@@ -3,7 +3,7 @@
 @section('content')
     <div class="movie-info border-b border-gray-800">
         <div class="container mx-auto px-4 py-16 flex flex-col md:flex-row">
-            <img src="{{ $movie['poster_path'] }}" alt="{{ $movie['title'] }}" class="w-64 lg:w-96">
+            <img src="{{ $movie['poster_path'] }}" alt="{{ $movie['title'] }}" class="w-64 lg:w-96 main-shadow">
             <div class="md:ml-24 md:mt-0 mt-6">
                 <h1 class="text-2xl font-semibold">{{ $movie['title'] }}</h1>
                 <div class="flex items-center text-gray-400 text-sm mt-1 flex-wrap">
@@ -29,17 +29,13 @@
                     <h4 class="text-white font-semibold">Featured Cast</h4>
                     <div class="flex gap-4 mt-4 flex-col md:flex-row">
                         @if (count($movie['credits']['crew']) > 0)
-                            @php
-                                $crewsArray = $movie['credits']['crew'];
-                                $crews = array_map(function ($i) use ($crewsArray) {
-                                    return $crewsArray[$i];
-                                }, array_rand($crewsArray, 2));
-                            @endphp
-                            @foreach ($crews as $crew)
-                                <div>
-                                    <div>{{ $crew['name'] }}</div>
-                                    <div class="text-sm text-gray-400">{{ $crew['job'] }}</div>
-                                </div>
+                            @foreach ($movie['credits']['crew'] as $crew)
+                                @if ($loop->iteration < 3)
+                                    <div>
+                                        <div>{{ $crew['name'] }}</div>
+                                        <div class="text-sm text-gray-400">{{ $crew['job'] }}</div>
+                                    </div>
+                                @endif
                             @endforeach
                         @endif
                     </div>
@@ -62,31 +58,28 @@
                         </div>
                     @endif
 
-                    @if (isset($movie['videos']['results'][0]['key']))
-                        <div style="background-color: rgba(0, 0, 0, 0.5)"
-                            class="fixed top-0 left-0 w-full h-full flex items-center justify-center shadow-lg overflow-y-auto"
-                            x-show="isOpen">
-                            <div class="container mx-auto lg:px-32 rounded-lg overflow-y-auto w-fit">
-                                <div class="bg-gray-900 rounded">
-                                    <div class="flex justify-end pr-4 pt-2">
-                                        <button class="text-3xl leading-none hover:text-gray-300" @click="isOpen=false">
-                                            &times;
-                                        </button>
-                                    </div>
-                                    <div class="modal-body p-8">
-                                        <div class="responsive-container overflow-hidden relative">
-                                            <iframe width="560" height="315"
-                                                src="https://www.youtube.com/embed/{{ $movie['videos']['results'][0]['key'] }}"
-                                                title="YouTube video player" frameborder="0"
-                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                                allowfullscreen></iframe>
-                                        </div>
+                    <div style="background-color: rgba(0, 0, 0, 0.5)"
+                        class="fixed top-0 left-0 w-full h-full flex items-center justify-center shadow-lg overflow-y-auto"
+                        x-show="isOpen">
+                        <div class="container mx-auto lg:px-32 rounded-lg overflow-y-auto w-fit">
+                            <div class="bg-gray-900 rounded">
+                                <div class="flex justify-end pr-4 pt-2">
+                                    <button class="text-3xl leading-none hover:text-gray-300" @click="isOpen=false">
+                                        &times;
+                                    </button>
+                                </div>
+                                <div class="modal-body p-8">
+                                    <div class="responsive-container overflow-hidden relative">
+                                        <iframe width="560" height="315"
+                                            src="https://www.youtube.com/embed/{{ $movie['videos']['results'][0]['key'] }}"
+                                            title="YouTube video player" frameborder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowfullscreen></iframe>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    @endif
-
+                    </div>
                 </div>
             </div>
         </div>
@@ -101,17 +94,17 @@
                         $castsArray = $movie['credits']['cast'];
                         $casts = array_map(function ($i) use ($castsArray) {
                             return $castsArray[$i];
-                        }, array_rand($castsArray, 5));
+                        }, array_rand($castsArray, 10));
                     @endphp
                     @forelse ($casts as $cast)
                         <div class="mt-8">
                             <a href="{{ route('actors.show', $cast['id']) }}" class="">
                                 <img src="{{ 'https://image.tmdb.org/t/p/w300/' . $cast['profile_path'] }}" alt=""
-                                    class="hover:opacity-75 transition ease-in-out">
+                                    class="hover:opacity-75 transition ease-in-out main-shadow">
                             </a>
                             <div>
                                 <a href={{ route('actors.show', $cast['id']) }}"
-                                    class="text-xl mt-2 hover:text-gray-300">{{ $cast['name'] }}</a>
+                                    class="text-xl mt-2 hover:text-gray-300 block">{{ $cast['name'] }}</a>
                             </div>
                             <div class="text-lg mt-2 hover:text-gray-300 text-gray-500">{{ $cast['character'] }}</div>
                         </div>

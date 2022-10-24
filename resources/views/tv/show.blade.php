@@ -29,17 +29,13 @@
                     <h4 class="text-white font-semibold">Featured Cast</h4>
                     <div class="flex gap-4 mt-4 flex-col md:flex-row">
                         @if (count($tvshow['credits']['crew']) > 0)
-                            @php
-                                $crewsArray = $tvshow['credits']['crew'];
-                                $crews = array_map(function ($i) use ($crewsArray) {
-                                    return $crewsArray[$i];
-                                }, array_rand($crewsArray, 2));
-                            @endphp
-                            @foreach ($crews as $crew)
-                                <div>
-                                    <div>{{ $crew['name'] }}</div>
-                                    <div class="text-sm text-gray-400">{{ $crew['job'] }}</div>
-                                </div>
+                            @foreach ($tvshow['credits']['crew'] as $crew)
+                                @if ($loop->iteration < 3)
+                                    <div>
+                                        <div>{{ $crew['name'] }}</div>
+                                        <div class="text-sm text-gray-400">{{ $crew['job'] }}</div>
+                                    </div>
+                                @endif
                             @endforeach
                         @endif
                     </div>
@@ -94,21 +90,15 @@
             <h2 class="text-2xl font-semibold">Cast</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-16">
                 @if (count($tvshow['credits']['cast']) > 0)
-                    @php
-                        $castsArray = $tvshow['credits']['cast'];
-                        $casts = array_map(function ($i) use ($castsArray) {
-                            return $castsArray[$i];
-                        }, array_rand($castsArray, 5));
-                    @endphp
-                    @forelse ($casts as $cast)
+                    @forelse ($tvshow['credits']['cast'] as $cast)
                         <div class="mt-8">
                             <a href="{{ route('actors.show', $cast['id']) }}" class="">
                                 <img src="{{ 'https://image.tmdb.org/t/p/w300/' . $cast['profile_path'] }}" alt=""
-                                    class="hover:opacity-75 transition ease-in-out">
+                                    class="hover:opacity-75 transition ease-in-out main-shadow">
                             </a>
                             <div>
                                 <a href={{ route('actors.show', $cast['id']) }}"
-                                    class="text-xl mt-2 hover:text-gray-300">{{ $cast['name'] }}</a>
+                                    class="text-xl mt-2 hover:text-gray-300 block">{{ $cast['name'] }}</a>
                             </div>
                             <div class="text-lg mt-2 hover:text-gray-300 text-gray-500">{{ $cast['character'] }}</div>
                         </div>
